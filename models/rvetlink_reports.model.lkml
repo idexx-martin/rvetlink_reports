@@ -21,3 +21,7 @@ explore: referral_detail_query {
 explore: referrals_total_query {
 
 }
+
+explore: update_notices_sent_query {
+
+}
