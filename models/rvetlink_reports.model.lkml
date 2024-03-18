@@ -13,3 +13,11 @@ persist_with: rvetlink_reports_default_datagroup
 explore: portal_usage_query {
 
 }
+
+explore: referral_detail_query {
+
+}
+
+explore: referrals_total_query {
+
+}
