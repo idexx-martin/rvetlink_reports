@@ -25,3 +25,7 @@ explore: referrals_total_query {
 explore: update_notices_sent_query {
 
 }
+
+explore: deceased_notices_sent_query {
+
+}
