@@ -20,8 +20,8 @@ view: checkin_notices_sent_query {
       LEFT OUTER JOIN Import.ProviderLocations AS x ON x.ProviderId = n.ProviderId AND x.ProviderSecondaryLocationId = n.ProviderLocationId
       LEFT OUTER JOIN Import.Providers AS p ON p.ProviderId = x.ProviderId AND p.ProviderLocationId = x.ProviderMainLocationId
       LEFT OUTER JOIN Import.Practices AS p2 ON p2.ProviderId = x.ProviderId AND p2.PracticeId = n.PracticeId
-      WHERE p.ProviderCode = 'bptenn'
-      AND n.CheckInTimestamp BETWEEN '02/19/2024 00:00:00' AND '02/19/2024 23:59:59'
+      WHERE n.CheckInTimestamp BETWEEN {% parameter p_start_date %} AND DATEADD(second, 59, DATEADD(minute, 59, DATEADD(hour, 23, {% parameter p_end_date %})))
+      AND p.ProviderCode = {% parameter p_provider_code %}
       GROUP BY n.ProviderId, ISNULL(p.ProviderLocationId, n.ProviderLocationId), n.PracticeId, n.ClientId, n.ClientName, n.PatientId, n.PatientName, n.Reason, n.CheckInTimestamp, p.ProviderCode, n.PracticeRdvmId, p2.PracticeName
        ;;
   }
@@ -125,4 +125,17 @@ view: checkin_notices_sent_query {
       fax_sent
     ]
   }
+
+  parameter: p_start_date {
+    type:  date
+  }
+
+  parameter: p_end_date {
+    type:  date
+  }
+
+  parameter: p_provider_code {
+    type:  string
+  }
+
 }
