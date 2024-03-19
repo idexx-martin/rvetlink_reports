@@ -19,8 +19,8 @@ LEFT OUTER JOIN Import.ProviderLocations AS x ON x.ProviderId = n.ProviderId AND
 LEFT OUTER JOIN Import.Providers AS p ON p.ProviderId = x.ProviderId AND p.ProviderLocationId = x.ProviderMainLocationId
 INNER JOIN Import.Practices AS pr ON pr.PracticeId = n.PracticeId AND pr.ProviderId = n.ProviderId
 WHERE (n.IsDeceased = 1)
-AND p.[ProviderCode] = 'newhaven'
-AND n.CheckOutTimestamp BETWEEN '01/01/2021 00:00:00' AND '01/01/2023 23:59:59'
+AND n.CheckOutTimestamp BETWEEN {% parameter p_start_date %} AND DATEADD(second, 59, DATEADD(minute, 59, DATEADD(hour, 23, {% parameter p_end_date %})))
+AND p.ProviderCode = {% parameter p_provider_code %}
  ;;
   }
 
@@ -117,4 +117,17 @@ AND n.CheckOutTimestamp BETWEEN '01/01/2021 00:00:00' AND '01/01/2023 23:59:59'
       reason
     ]
   }
+
+  parameter: p_start_date {
+    type:  date
+  }
+
+  parameter: p_end_date {
+    type:  date
+  }
+
+  parameter: p_provider_code {
+    type:  string
+  }
+
 }
