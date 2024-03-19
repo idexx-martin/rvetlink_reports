@@ -33,3 +33,7 @@ explore: deceased_notices_sent_query {
 explore: checkout_notices_sent_query {
 
 }
+
+explore: checkin_notices_sent_query {
+
+}
