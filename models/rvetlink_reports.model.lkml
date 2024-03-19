@@ -29,3 +29,7 @@ explore: update_notices_sent_query {
 explore: deceased_notices_sent_query {
 
 }
+
+explore: checkout_notices_sent_query {
+
+}
