@@ -2,6 +2,7 @@ view: checkin_notices_sent_query {
   derived_table: {
     sql: SELECT n.ProviderId,
       p.ProviderCode,
+      p.ProviderName,
       ISNULL(p.ProviderLocationId,
       n.ProviderLocationId) AS ProviderLocationId,
       n.PracticeId,
@@ -22,7 +23,7 @@ view: checkin_notices_sent_query {
       LEFT OUTER JOIN Import.Practices AS p2 ON p2.ProviderId = x.ProviderId AND p2.PracticeId = n.PracticeId
       WHERE n.CheckInTimestamp BETWEEN {% parameter p_start_date %} AND DATEADD(second, 59, DATEADD(minute, 59, DATEADD(hour, 23, {% parameter p_end_date %})))
       AND p.ProviderCode = {% parameter p_provider_code %}
-      GROUP BY n.ProviderId, ISNULL(p.ProviderLocationId, n.ProviderLocationId), n.PracticeId, n.ClientId, n.ClientName, n.PatientId, n.PatientName, n.Reason, n.CheckInTimestamp, p.ProviderCode, n.PracticeRdvmId, p2.PracticeName
+      GROUP BY n.ProviderId, ISNULL(p.ProviderLocationId, n.ProviderLocationId), n.PracticeId, n.ClientId, n.ClientName, n.PatientId, n.PatientName, n.Reason, n.CheckInTimestamp, p.ProviderCode, n.PracticeRdvmId, p2.PracticeName, p.ProviderName
        ;;
   }
 
@@ -39,6 +40,11 @@ view: checkin_notices_sent_query {
   dimension: provider_code {
     type: string
     sql: ${TABLE}.ProviderCode ;;
+  }
+
+  dimension: provider_name {
+    type: string
+    sql: ${TABLE}.ProviderName ;;
   }
 
   dimension: provider_location_id {
@@ -109,6 +115,7 @@ view: checkin_notices_sent_query {
   set: detail {
     fields: [
       provider_id,
+      provider_name,
       provider_code,
       provider_location_id,
       practice_id,
