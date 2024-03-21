@@ -2,7 +2,7 @@ view: referrals_total_query {
   derived_table: {
     sql: SELECT r.[PracticeName],
        r.[PracticeId],
-       r.[]PracticeRdvmId],
+       r.[PracticeRdvmId],
        COUNT(r.[ReferralId]) AS 'Total'
 FROM [Import].[Referrals] AS r
 INNER JOIN [Import].[Providers] AS p ON r.[ProviderId] = p.[ProviderId]
