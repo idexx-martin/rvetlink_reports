@@ -1,6 +1,7 @@
 view: deceased_notices_sent_query {
   derived_table: {
     sql: SELECT p.ProviderCode,
+       p.ProviderName,
        n.ProviderId,
        ISNULL(p.ProviderLocationId, n.ProviderLocationId) AS ProviderLocationId,
        pr.PracticeName,
@@ -32,6 +33,11 @@ AND p.ProviderCode = {% parameter p_provider_code %}
   dimension: provider_code {
     type: string
     sql: ${TABLE}.ProviderCode ;;
+  }
+
+  dimension: provider_name {
+    type: string
+    sql: ${TABLE}.ProviderName ;;
   }
 
   dimension: provider_id {
@@ -102,6 +108,7 @@ AND p.ProviderCode = {% parameter p_provider_code %}
   set: detail {
     fields: [
       provider_code,
+      provider_name,
       provider_id,
       provider_location_id,
       practice_name,
