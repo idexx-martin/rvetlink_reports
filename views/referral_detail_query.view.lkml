@@ -105,12 +105,11 @@ AND p.Providercode = {% parameter p_provider_code %}
   }
 
   dimension: file_url {
+    link: {
+      url: "{{ value }}"
+    }
     type: string
     sql: ${TABLE}.FileUrl ;;
-    link: {
-      label: "View"
-      url: "({{ file_url }}"
-    }
   }
 
   set: detail {
