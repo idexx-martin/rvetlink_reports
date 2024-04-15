@@ -19,9 +19,10 @@ FROM Import.NotificationCheckOuts AS n
 LEFT OUTER JOIN Import.ProviderLocations AS x ON x.ProviderId = n.ProviderId AND x.ProviderSecondaryLocationId = n.ProviderLocationId
 LEFT OUTER JOIN Import.Providers AS p ON p.ProviderId = x.ProviderId AND p.ProviderLocationId = x.ProviderMainLocationId
 INNER JOIN Import.Practices AS pr ON pr.PracticeId = n.PracticeId AND pr.ProviderId = n.ProviderId
+LEFT OUTER JOIN Import.Providers AS sdvm ON sdvm.ProviderId = p.ProviderId
 WHERE (n.IsDeceased = 1)
 AND n.CheckOutTimestamp BETWEEN {% parameter p_start_date %} AND DATEADD(second, 59, DATEADD(minute, 59, DATEADD(hour, 23, {% parameter p_end_date %})))
-AND p.ProviderCode = {% parameter p_provider_code %}
+AND sdvm.ProviderCode = {% parameter p_provider_code %}
  ;;
   }
 
